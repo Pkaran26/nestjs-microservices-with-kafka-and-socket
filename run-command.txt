@@ -1,0 +1,7 @@
+npm run start:dev backend
+npm run start:dev blogapi
+npm run start:dev weatherapi
+
+
+http://localhost:3000/posts?clientId=jsp8pvuZoDYQntRuAAAD
+http://localhost:3000/weather?clientId=jsp8pvuZoDYQntRuAAAD
