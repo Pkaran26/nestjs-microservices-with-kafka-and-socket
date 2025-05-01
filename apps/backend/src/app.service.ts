@@ -7,13 +7,15 @@ import { firstValueFrom } from 'rxjs';
 export class AppService implements OnModuleInit {
   constructor(
     @Inject('BLOG_SERVICE') private readonly blogClient: ClientKafka,
+    @Inject('WEATHER_SERVICE') private readonly weatherClient: ClientKafka,
     private readonly gateway: AppGateway,
   ) {}
 
   async onModuleInit() {
     this.blogClient.subscribeToResponseOf('blog.request');
-    this.blogClient.subscribeToResponseOf('weather.request');
+    this.weatherClient.subscribeToResponseOf('weather.request');
     await this.blogClient.connect();
+    await this.weatherClient.connect();
   }
 
   async fetchPosts(clientId: string) {
@@ -33,7 +35,7 @@ export class AppService implements OnModuleInit {
     try {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const response = await firstValueFrom(
-        this.blogClient.send('weather.request', { city: 'Bilaspur' }),
+        this.weatherClient.send('weather.request', { city: 'Bilaspur' }),
       );
       this.gateway.emitPosts(clientId, 'weather.get', response);
     } catch (error) {
